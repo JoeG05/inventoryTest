@@ -68,14 +68,63 @@ namespace InventoryTest
             wkb.Close();
         }
 
+        static void nameConversion(Dictionary<string, SalesData> d, string file)
+        {
+            Excel.Application xl = new Excel.Application();
+            Excel.Workbook xlWorkbook = xl.Workbooks.Open(file);
+            Excel.Worksheet xlSheet = xlWorkbook.Sheets[2];
+            Excel.Range xlRange = xlSheet.UsedRange;
+
+            int counter = 1;
+            foreach(string entry in d.Keys)
+            {
+                xlSheet.Cells[counter, 1] = entry;
+                counter++;
+            }
+            xlWorkbook.Save();
+            xlWorkbook.Close();
+            
+        }
+
+        static void fillPerpetual(Dictionary<string, SalesData> d, string file)
+        {
+            Excel.Application xl = new Excel.Application();
+            Excel.Workbook xlWorkbook = xl.Workbooks.Open(file);
+            Excel.Worksheet xlSheet = xlWorkbook.Sheets[1];
+            Excel.Range xlRange = xlSheet.UsedRange;
+            int rowCount = xlRange.Rows.Count;
+
+            for (int i = 1; i < rowCount; i++)
+            {
+                string item = (string)(xlRange.Cells[i, 1] as Excel.Range).Value2;
+                if (item == null)
+                    continue;
+                if (d.ContainsKey(item))
+                {
+                    xlRange.Cells[i, 3].Value2 = d[item].OH;
+                }
+            }
+            string saveAs = @"D:\InventoryTest\InventoryTest\bin\Debug\Perpetual-WE-11-27.xlsx";
+            
+            xlWorkbook.SaveAs(saveAs);
+            xlWorkbook.Close(file);
+
+            Console.WriteLine("Copy completed.");
+
+        }
+
         static void Main(string[] args)
         {
             Dictionary<string, SalesData> Inventory = new Dictionary<string, SalesData>();
             Inventory.Clear();
-            //getInventory(Inventory);
+            getInventory(Inventory);
+            //xlTest();
 
-            xlTest();
-            
+            //  Set file equal to the location of the blank perpetual file.
+            string file = @"D:\InventoryTest\InventoryTest\bin\Debug\Perpetual-Blank.xlsx";
+            fillPerpetual(Inventory, file);
+
+            //nameConversion(Inventory, file);
             Console.ReadLine();
         }
     }
