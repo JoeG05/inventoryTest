@@ -88,12 +88,12 @@ namespace InventoryTest
                     xlRange.Cells[i, 3].Value2 = d[item].OH;
                 }
             }
-            string saveAs = @"D:\InventoryTest\InventoryTest\bin\Debug\Perpetual-WE-12-11.xlsx";
+            string saveAs = @"D:\InventoryTest\InventoryTest\bin\Debug\Perpetual-WE-" + getNextSunday();
             
             xlWorkbook.SaveAs(saveAs);
             xlWorkbook.Close(file);
 
-            Console.WriteLine("Copy completed.");
+            Console.WriteLine("Perpetual copy completed.");
 
         }
 
@@ -137,23 +137,57 @@ namespace InventoryTest
             return nextSunday.ToString("M");
 
         }
+
+        static string getToday()
+        {
+            DateTime today = DateTime.Today;
+            return today.ToString("M");
+        }
+
+        static void fillOrderSheet(Dictionary<string, SalesData>d, string file)
+        {
+            Excel.Application xl = new Excel.Application();
+            Excel.Workbook xlWorkbook = xl.Workbooks.Open(file);
+            Excel.Worksheet xlSheet = xlWorkbook.Sheets[1];
+            Excel.Range xlRange = xlSheet.UsedRange;
+            int rowCount = xlRange.Rows.Count;
+
+            for (int i = 1; i < rowCount; i++)
+            {
+                string item = (string)(xlRange.Cells[i, 1] as Excel.Range).Value2;
+                if (item == null)
+                    continue;
+                if (d.ContainsKey(item))
+                {
+                    xlRange.Cells[i, 3].Value2 = d[item].Sold;
+                    xlRange.Cells[i, 4].Value2 = d[item].OH;
+                }
+            }
+            xlRange.Cells[1, 5].Value2 = getToday();
+            string saveAs = @"D:\InventoryTest\InventoryTest\bin\Debug\SP-" + getToday();
+            xlWorkbook.SaveAs(saveAs);
+            xlWorkbook.Close(file);
+            Console.WriteLine("Inventory copy completed");
+
+        }
         static void Main(string[] args)
         {
             Dictionary<string, SalesData> Inventory = new Dictionary<string, SalesData>();
             Inventory.Clear();
             //getInventory(Inventory);
-            
+
 
             //  Set file equal to the location of the blank perpetual file.
             //string file = @"D:\InventoryTest\InventoryTest\bin\Debug\Perpetual-Blank.xlsx";
             //fillPerpetual(Inventory, file);
 
-            string file = @"C:\Users\joegu_000\Dropbox\Work\SPBlank.xls";
+            //string file = @"C:\Users\joegu_000\Dropbox\Work\SPBlank.xls";
             //orderConversion(Inventory, file);
 
             //nameConversion(Inventory, file);
+            string file = @"D:\InventoryTest\InventoryTest\bin\Debug\SPBlank.xls";
+            fillOrderSheet(Inventory, file);
 
-            
 
             Console.ReadLine();
 
