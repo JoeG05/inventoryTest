@@ -50,8 +50,6 @@ namespace InventoryTest
             file.Close();
         }
 
-    
-
         static void nameConversion(Dictionary<string, SalesData> d, string file)
         {
             Excel.Application xl = new Excel.Application();
@@ -174,7 +172,7 @@ namespace InventoryTest
         {
             Dictionary<string, SalesData> Inventory = new Dictionary<string, SalesData>();
             Inventory.Clear();
-            //getInventory(Inventory);
+            getInventory(Inventory);
 
 
             //  Set file equal to the location of the blank perpetual file.
