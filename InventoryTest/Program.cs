@@ -50,25 +50,7 @@ namespace InventoryTest
             file.Close();
         }
 
-        static void xlTest()
-        {
-            Excel.Application xcel = new Excel.Application();
-            Excel.Workbook wkb = xcel.Workbooks.Open(@"D:\InventoryTest\InventoryTest\bin\Debug\Perpetual-Blank.xlsx");
-            Excel.Worksheet sheet = wkb.Sheets[1];
-            Excel.Range xlrange = sheet.UsedRange;
-            int rowCount = xlrange.Rows.Count;
-            int colCount = xlrange.Columns.Count;
-
-            for (int i = 1; i < rowCount; i++)
-            {
-                string item;
-                item = (string)(xlrange.Cells[i, 1] as Excel.Range).Value2;
-                Console.WriteLine(item);
-            }
-
-
-            wkb.Close();
-        }
+    
 
         static void nameConversion(Dictionary<string, SalesData> d, string file)
         {
@@ -147,12 +129,20 @@ namespace InventoryTest
             Console.WriteLine("orderConversion Finished.");
         }
 
+        static string getNextSunday()
+        {
+            DateTime today = DateTime.Today;
+            int daysUntilSunday = ((int)DayOfWeek.Sunday - (int)today.DayOfWeek + 7) % 7;
+            DateTime nextSunday = today.AddDays(daysUntilSunday);
+            return nextSunday.ToString("M");
+
+        }
         static void Main(string[] args)
         {
             Dictionary<string, SalesData> Inventory = new Dictionary<string, SalesData>();
             Inventory.Clear();
             //getInventory(Inventory);
-            //xlTest();
+            
 
             //  Set file equal to the location of the blank perpetual file.
             //string file = @"D:\InventoryTest\InventoryTest\bin\Debug\Perpetual-Blank.xlsx";
@@ -163,11 +153,7 @@ namespace InventoryTest
 
             //nameConversion(Inventory, file);
 
-            DateTime today = DateTime.Today;
-            Console.WriteLine(today.ToString("d"));
-            int daysUntilSunday = ((int)DayOfWeek.Sunday - (int)today.DayOfWeek + 7) % 7;
-            DateTime nextSunday = today.AddDays(daysUntilSunday);
-            Console.WriteLine(nextSunday.ToString("d"));
+            
 
             Console.ReadLine();
 
