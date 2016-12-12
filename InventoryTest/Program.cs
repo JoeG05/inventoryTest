@@ -15,6 +15,7 @@ namespace InventoryTest
             
             public double Sold;
             public double OH;
+            public string Code;
         };
 
         static void getInventory(Dictionary<string, SalesData> d)
@@ -43,6 +44,7 @@ namespace InventoryTest
 
                 s.Sold = double.Parse(words[9]);
                 s.OH = double.Parse(words[13]);
+                s.Code = words[0];
                 d.Add(words[2], s);
             }
             file.Close();
@@ -104,7 +106,7 @@ namespace InventoryTest
                     xlRange.Cells[i, 3].Value2 = d[item].OH;
                 }
             }
-            string saveAs = @"D:\InventoryTest\InventoryTest\bin\Debug\Perpetual-WE-11-27.xlsx";
+            string saveAs = @"D:\InventoryTest\InventoryTest\bin\Debug\Perpetual-WE-12-11.xlsx";
             
             xlWorkbook.SaveAs(saveAs);
             xlWorkbook.Close(file);
@@ -113,19 +115,62 @@ namespace InventoryTest
 
         }
 
+        static void orderConversion(Dictionary<string, SalesData>d, string file)
+        {
+            Excel.Application xl = new Excel.Application();
+            Excel.Workbook xlWorkbook = xl.Workbooks.Open(file);
+            Excel.Worksheet xlSheet = xlWorkbook.Sheets[2];
+            Excel.Range xlRange = xlSheet.UsedRange;
+
+
+            foreach (var entry in d)
+            {
+                Console.WriteLine(entry.Key);
+                if (entry.Value.Code == "584-10" || entry.Value.Code == "584-30")
+                    continue;
+                int row = Int32.Parse(Console.ReadLine());
+                if (row == 999)
+                    continue;
+                if (row == -1)
+                {
+                    xlWorkbook.Save();
+                    xlWorkbook.Close(file);
+                    Console.WriteLine("Complete");
+                    return;
+                }
+                xlRange.Cells[row, 1] = entry.Key;
+                
+
+            }
+            xlWorkbook.Save();
+            xlWorkbook.Close(file);
+            Console.WriteLine("orderConversion Finished.");
+        }
+
         static void Main(string[] args)
         {
             Dictionary<string, SalesData> Inventory = new Dictionary<string, SalesData>();
             Inventory.Clear();
-            getInventory(Inventory);
+            //getInventory(Inventory);
             //xlTest();
 
             //  Set file equal to the location of the blank perpetual file.
-            string file = @"D:\InventoryTest\InventoryTest\bin\Debug\Perpetual-Blank.xlsx";
-            fillPerpetual(Inventory, file);
+            //string file = @"D:\InventoryTest\InventoryTest\bin\Debug\Perpetual-Blank.xlsx";
+            //fillPerpetual(Inventory, file);
+
+            string file = @"C:\Users\joegu_000\Dropbox\Work\SPBlank.xls";
+            //orderConversion(Inventory, file);
 
             //nameConversion(Inventory, file);
+
+            DateTime today = DateTime.Today;
+            Console.WriteLine(today.ToString("d"));
+            int daysUntilSunday = ((int)DayOfWeek.Sunday - (int)today.DayOfWeek + 7) % 7;
+            DateTime nextSunday = today.AddDays(daysUntilSunday);
+            Console.WriteLine(nextSunday.ToString("d"));
+
             Console.ReadLine();
+
         }
     }
 
