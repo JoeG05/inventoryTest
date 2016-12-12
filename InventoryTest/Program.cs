@@ -23,7 +23,7 @@ namespace InventoryTest
             char[] delimiterChars = { ',' };
             string[] productCodes = { "584-10", "584-30", "555-10", "580-00", "581-00", "587-00" };
             string line;
-            StreamReader file = new StreamReader("Report.txt");
+            StreamReader file = new StreamReader(@"C:\Dropbox\Work\Inventory\Report.txt");
 
             while ((line = file.ReadLine()) != null)
             {
@@ -86,7 +86,7 @@ namespace InventoryTest
                     xlRange.Cells[i, 3].Value2 = d[item].OH;
                 }
             }
-            string saveAs = @"D:\InventoryTest\InventoryTest\bin\Debug\Perpetual-WE-" + getNextSunday();
+            string saveAs = @"C:\Dropbox\Work\Inventory\Perpetual-WE-" + getNextSunday();
             
             xlWorkbook.SaveAs(saveAs);
             xlWorkbook.Close(file);
@@ -162,32 +162,57 @@ namespace InventoryTest
                 }
             }
             xlRange.Cells[1, 5].Value2 = getToday();
-            string saveAs = @"D:\InventoryTest\InventoryTest\bin\Debug\SP-" + getToday();
+            string saveAs = @"C:\Dropbox\Work\Inventory\SP-" + getToday();
             xlWorkbook.SaveAs(saveAs);
             xlWorkbook.Close(file);
             Console.WriteLine("Inventory copy completed");
 
         }
+
+        static void printMenu()
+        {
+            Console.WriteLine("**************************");
+            Console.WriteLine(" 1.  Get Inventory");
+            Console.WriteLine(" 2.  Generate Perpetual");
+            Console.WriteLine(" 3.  Generate Order Sheet");
+            Console.WriteLine(" 4.  Quit");
+        }
+
         static void Main(string[] args)
         {
             Dictionary<string, SalesData> Inventory = new Dictionary<string, SalesData>();
             Inventory.Clear();
-            getInventory(Inventory);
+            
+            int choice = 0;
+            while (choice !=4)
+            {
+                printMenu();
+                choice = Int32.Parse(Console.ReadLine());
+                switch(choice)
+                {
+                    case 1:
+                        getInventory(Inventory);
+                        break;
 
+                    case 2:
+                        fillPerpetual(Inventory, @"C:\Dropbox\Work\Inventory\Perpetual-Blank.xlsx");
+                        break;
 
-            //  Set file equal to the location of the blank perpetual file.
-            //string file = @"D:\InventoryTest\InventoryTest\bin\Debug\Perpetual-Blank.xlsx";
-            //fillPerpetual(Inventory, file);
+                    case 3:
+                        fillOrderSheet(Inventory, @"C:\Dropbox\Work\Inventory\SPBlank.xls");
+                        break;
 
-            //string file = @"C:\Users\joegu_000\Dropbox\Work\SPBlank.xls";
-            //orderConversion(Inventory, file);
+                    case 4:
+                        return;
 
-            //nameConversion(Inventory, file);
-            string file = @"D:\InventoryTest\InventoryTest\bin\Debug\SPBlank.xls";
-            fillOrderSheet(Inventory, file);
+                    default:
+                        Console.WriteLine("**************************");
+                        Console.WriteLine("Invalid choice.");
+                        break;
+                }
+            }
 
-
-            Console.ReadLine();
+            
 
         }
     }
