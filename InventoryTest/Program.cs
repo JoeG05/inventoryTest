@@ -21,9 +21,14 @@ namespace InventoryTest
         static void getInventory(Dictionary<string, SalesData> d)
         {
             char[] delimiterChars = { ',' };
-            string[] productCodes = { "584-10", "584-30", "555-10", "580-00", "581-00", "587-00" };
+            string[] productCodes = { "584-10", "584-30", "555-00", "580-00", "581-00", "587-00" };
             string line;
-            StreamReader file = new StreamReader(@"C:\Dropbox\Work\Inventory\Report.txt");
+            
+            // Scotch plains file location
+            // StreamReader file = new StreamReader(@"C:\Dropbox\Work\Inventory\Report.txt");
+
+            // Chatham file location
+            StreamReader file = new StreamReader(@"C:\Dropbox\Work\Chatham\Report.txt");
 
             while ((line = file.ReadLine()) != null)
             {
@@ -86,7 +91,11 @@ namespace InventoryTest
                     xlRange.Cells[i, 3].Value2 = d[item].OH;
                 }
             }
-            string saveAs = @"C:\Dropbox\Work\Inventory\Perpetual-WE-" + getNextSunday();
+            // Scotch Plains
+            // string saveAs = @"C:\Dropbox\Work\Inventory\Perpetual-WE-" + getNextSunday();
+
+            // Chatham
+            string saveAs = @"C:\Dropbox\Work\Chatham\Perpetual-WE-" + getNextSunday();
             
             xlWorkbook.SaveAs(saveAs);
             xlWorkbook.Close(file);
@@ -99,16 +108,18 @@ namespace InventoryTest
         {
             Excel.Application xl = new Excel.Application();
             Excel.Workbook xlWorkbook = xl.Workbooks.Open(file);
-            Excel.Worksheet xlSheet = xlWorkbook.Sheets[2];
+            Excel.Worksheet xlSheet = xlWorkbook.Sheets[1];
             Excel.Range xlRange = xlSheet.UsedRange;
 
 
             foreach (var entry in d)
             {
                 Console.WriteLine(entry.Key);
-                if (entry.Value.Code == "584-10" || entry.Value.Code == "584-30")
+                if (entry.Value.Code == "584-10" || entry.Value.Code == "584-30" || entry.Value.Code == "555-00")
                     continue;
+
                 int row = Int32.Parse(Console.ReadLine());
+
                 if (row == 999)
                     continue;
                 if (row == -1)
@@ -171,11 +182,14 @@ namespace InventoryTest
 
         static void printMenu()
         {
-            Console.WriteLine("**************************");
+            Console.WriteLine("**********************************");
             Console.WriteLine(" 1.  Get Inventory");
             Console.WriteLine(" 2.  Generate Perpetual");
             Console.WriteLine(" 3.  Generate Order Sheet");
             Console.WriteLine(" 4.  Quit");
+            Console.WriteLine();
+            Console.WriteLine(" 5.  Name Conversion (pw required)");
+            Console.WriteLine("**********************************");
         }
 
         static void Main(string[] args)
@@ -195,7 +209,11 @@ namespace InventoryTest
                         break;
 
                     case 2:
-                        fillPerpetual(Inventory, @"C:\Dropbox\Work\Inventory\Perpetual-Blank.xlsx");
+                        // Scotch Plains
+                        // fillPerpetual(Inventory, @"C:\Dropbox\Work\Inventory\Perpetual-Blank.xlsx");
+
+                        // Chatham
+                        fillPerpetual(Inventory, @"C:\Dropbox\Work\Chatham\Perpetual-Blank.xlsx");
                         break;
 
                     case 3:
@@ -204,6 +222,17 @@ namespace InventoryTest
 
                     case 4:
                         return;
+
+                    case 5:
+                        string pw;
+                        pw = Console.ReadLine();
+                        if (pw == "DefinitelyNotAdmin")
+                            orderConversion(Inventory, @"C:\Dropbox\\Work\Chatham\Perpetual-Blank.xlsx");
+
+                        else
+                            Console.WriteLine("Invalid Password.");
+
+                        break;
 
                     default:
                         Console.WriteLine("**************************");
