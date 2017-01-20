@@ -147,6 +147,14 @@ namespace InventoryTest
 
         }
 
+        static string getLastSunday()
+        {
+            DateTime today = DateTime.Today;
+            int daysSinceSunday = ((int)today.DayOfWeek - (int)DayOfWeek.Sunday + 7) % 7;
+            DateTime lastSunday = today.AddDays(-daysSinceSunday);
+            return lastSunday.ToString("M");
+        }
+
         static string getToday()
         {
             DateTime today = DateTime.Today;
