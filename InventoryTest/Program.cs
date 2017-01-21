@@ -18,6 +18,9 @@ namespace InventoryTest
             public string Code;
         };
 
+        // Fills dictionary with sales data
+        // Gets passed dictionary
+        // No return
         static void getInventory(Dictionary<string, SalesData> d)
         {
             char[] delimiterChars = { ',' };
@@ -55,24 +58,9 @@ namespace InventoryTest
             file.Close();
         }
 
-        static void nameConversion(Dictionary<string, SalesData> d, string file)
-        {
-            Excel.Application xl = new Excel.Application();
-            Excel.Workbook xlWorkbook = xl.Workbooks.Open(file);
-            Excel.Worksheet xlSheet = xlWorkbook.Sheets[2];
-            Excel.Range xlRange = xlSheet.UsedRange;
-
-            int counter = 1;
-            foreach(string entry in d.Keys)
-            {
-                xlSheet.Cells[counter, 1] = entry;
-                counter++;
-            }
-            xlWorkbook.Save();
-            xlWorkbook.Close();
-            
-        }
-
+        // Fills perpetual with OH data
+        // Gets passed dictionary and blank perpetual
+        // No return
         static void fillPerpetual(Dictionary<string, SalesData> d, string file)
         {
             Excel.Application xl = new Excel.Application();
@@ -104,6 +92,10 @@ namespace InventoryTest
 
         }
 
+        // Replaces item name with name from inventory
+        // to insure exact match
+        // Gets passed dictionary and blank perpetual / order guide
+        // No return
         static void orderConversion(Dictionary<string, SalesData>d, string file)
         {
             Excel.Application xl = new Excel.Application();
@@ -138,6 +130,7 @@ namespace InventoryTest
             Console.WriteLine("orderConversion Finished.");
         }
 
+        // returns next Sunday date in Month dd format
         static string getNextSunday()
         {
             DateTime today = DateTime.Today;
@@ -147,6 +140,7 @@ namespace InventoryTest
 
         }
 
+        // returns last Sunday date in Month dd format
         static string getLastSunday()
         {
             DateTime today = DateTime.Today;
@@ -155,12 +149,16 @@ namespace InventoryTest
             return lastSunday.ToString("M");
         }
 
+        // returns today's date in Month dd format
         static string getToday()
         {
             DateTime today = DateTime.Today;
             return today.ToString("M");
         }
 
+        // Fills order sheet with sold and OH
+        // Gets passed dictionary and blank order guide
+        // No return
         static void fillOrderSheet(Dictionary<string, SalesData>d, string file)
         {
             Excel.Application xl = new Excel.Application();
@@ -188,6 +186,7 @@ namespace InventoryTest
 
         }
 
+        // Prints menu
         static void printMenu()
         {
             Console.WriteLine("**********************************");
@@ -229,6 +228,7 @@ namespace InventoryTest
                         break;
 
                     case 4:
+                        Console.WriteLine("Goodbye!");
                         return;
 
                     case 5:
