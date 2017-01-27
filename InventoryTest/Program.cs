@@ -130,23 +130,25 @@ namespace InventoryTest
             Console.WriteLine("orderConversion Finished.");
         }
 
-        // returns next Sunday date in Month dd format
+        // returns next Sunday date in MM.dd.yy format
         static string getNextSunday()
         {
             DateTime today = DateTime.Today;
             int daysUntilSunday = ((int)DayOfWeek.Sunday - (int)today.DayOfWeek + 7) % 7;
             DateTime nextSunday = today.AddDays(daysUntilSunday);
-            return nextSunday.ToString("M");
+            string customFmt = "MM.dd.yy";
+            return nextSunday.ToString(customFmt);
 
         }
 
-        // returns last Sunday date in Month dd format
+        // returns last Sunday date in MM.dd.yy format
         static string getLastSunday()
         {
             DateTime today = DateTime.Today;
             int daysSinceSunday = ((int)today.DayOfWeek - (int)DayOfWeek.Sunday + 7) % 7;
             DateTime lastSunday = today.AddDays(-daysSinceSunday);
-            return lastSunday.ToString("M");
+            string customFmt = "MM.dd.yy";
+            return lastSunday.ToString(customFmt);
         }
 
         // returns today's date in Month dd format
@@ -205,51 +207,52 @@ namespace InventoryTest
             Inventory.Clear();
             
             int choice = 0;
-            while (choice !=4)
-            {
-                printMenu();
-                choice = Int32.Parse(Console.ReadLine());
-                switch(choice)
-                {
-                    case 1:
-                        getInventory(Inventory);
-                        break;
+            //while (choice !=4)
+            //{
+            //    printMenu();
+            //    choice = Int32.Parse(Console.ReadLine());
+            //    switch(choice)
+            //    {
+            //        case 1:     // Get Inventory
+            //            getInventory(Inventory);
+            //            break;
 
-                    case 2:
-                        // Scotch Plains
-                        // fillPerpetual(Inventory, @"C:\Dropbox\Work\Inventory\Perpetual-Blank.xlsx");
+            //        case 2:     // Generate perpetual
+            //            // Scotch Plains
+            //            // fillPerpetual(Inventory, @"C:\Dropbox\Work\Inventory\Perpetual-Blank.xlsx");
 
-                        // Chatham
-                        fillPerpetual(Inventory, @"C:\Dropbox\Work\Chatham\Perpetual-Blank.xlsx");
-                        break;
+            //            // Chatham
+            //            fillPerpetual(Inventory, @"C:\Dropbox\Work\Chatham\Perpetual-Blank.xlsx");
+            //            break;
 
-                    case 3:
-                        fillOrderSheet(Inventory, @"C:\Dropbox\Work\Inventory\SPBlank.xls");
-                        break;
+            //        case 3:     // Generate Order Sheet
+            //            fillOrderSheet(Inventory, @"C:\Dropbox\Work\Inventory\SPBlank.xls");
+            //            break;
 
-                    case 4:
-                        Console.WriteLine("Goodbye!");
-                        return;
+            //        case 4:     // Quit
+            //            Console.WriteLine("Goodbye!");
+            //            return;
 
-                    case 5:
-                        string pw;
-                        pw = Console.ReadLine();
-                        if (pw == "DefinitelyNotAdmin")
-                            orderConversion(Inventory, @"C:\Dropbox\\Work\Chatham\Perpetual-Blank.xlsx");
+            //        case 5:     // Name conversion
+            //            string pw;
+            //            pw = Console.ReadLine();
+            //            if (pw == "DefinitelyNotAdmin")
+            //                orderConversion(Inventory, @"C:\Dropbox\\Work\Chatham\Perpetual-Blank.xlsx");
 
-                        else
-                            Console.WriteLine("Invalid Password.");
+            //            else
+            //                Console.WriteLine("Invalid Password.");
 
-                        break;
+            //            break;
 
-                    default:
-                        Console.WriteLine("**************************");
-                        Console.WriteLine("Invalid choice.");
-                        break;
-                }
-            }
+            //        default:
+            //            Console.WriteLine("**************************");
+            //            Console.WriteLine("Invalid choice.");
+            //            break;
+            //    }
+            //}
 
-            
+            Console.WriteLine(getLastSunday());
+            Console.ReadLine();
 
         }
     }
