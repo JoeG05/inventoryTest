@@ -92,6 +92,34 @@ namespace InventoryTest
 
         }
 
+        // Fills ending inventory in last weeks perpetual
+        // Gets passed dictionary
+        // No return
+        static void fillLastPerpetual(Dictionary<string, SalesData> d)
+        {
+            string date = getLastSunday();
+            string file = @"C:\Dropbox\Liq Perpetuals\Perpetual-WE-" + date;
+            Excel.Application xl = new Excel.Application();
+            Excel.Workbook xlWorkbook = xl.Workbooks.Open(file);
+            Excel.Worksheet xlSheet = xlWorkbook.Sheets[1];
+            Excel.Range xlRange = xlSheet.UsedRange;
+            int rowCount = xlRange.Rows.Count;
+
+            for (int i = 1; i < rowCount; i++)
+            {
+                string item = (string)(xlRange.Cells[i, 1] as Excel.Range).Value2;
+                if (item == null)
+                    continue;
+                if (d.ContainsKey(item))
+                    xlRange.Cells[i, 13].Value2 = d[item].OH;
+            }
+
+            xlWorkbook.Save();
+            xlWorkbook.Close(file);
+
+            Console.WriteLine("Last weeks perpetual copy completed.");
+        }
+
         // Replaces item name with name from inventory
         // to insure exact match
         // Gets passed dictionary and blank perpetual / order guide
