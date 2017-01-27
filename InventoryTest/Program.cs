@@ -235,52 +235,51 @@ namespace InventoryTest
             Inventory.Clear();
             
             int choice = 0;
-            //while (choice !=4)
-            //{
-            //    printMenu();
-            //    choice = Int32.Parse(Console.ReadLine());
-            //    switch(choice)
-            //    {
-            //        case 1:     // Get Inventory
-            //            getInventory(Inventory);
-            //            break;
+            while (choice != 4)
+            {
+                printMenu();
+                choice = Int32.Parse(Console.ReadLine());
+                switch (choice)
+                {
+                    case 1:     // Get Inventory
+                        getInventory(Inventory);
+                        break;
 
-            //        case 2:     // Generate perpetual
-            //            // Scotch Plains
-            //            // fillPerpetual(Inventory, @"C:\Dropbox\Work\Inventory\Perpetual-Blank.xlsx");
+                    case 2:     // Generate perpetual
+                        // Scotch Plains
+                        // fillPerpetual(Inventory, @"C:\Dropbox\Work\Inventory\Perpetual-Blank.xlsx");
 
-            //            // Chatham
-            //            fillPerpetual(Inventory, @"C:\Dropbox\Work\Chatham\Perpetual-Blank.xlsx");
-            //            break;
+                        // Chatham
+                        fillPerpetual(Inventory, @"C:\Dropbox\Work\Chatham\Perpetual-Blank.xlsx");
+                        break;
 
-            //        case 3:     // Generate Order Sheet
-            //            fillOrderSheet(Inventory, @"C:\Dropbox\Work\Inventory\SPBlank.xls");
-            //            break;
+                    case 3:     // Generate Order Sheet
+                        fillOrderSheet(Inventory, @"C:\Dropbox\Work\Inventory\SPBlank.xls");
+                        break;
 
-            //        case 4:     // Quit
-            //            Console.WriteLine("Goodbye!");
-            //            return;
+                    case 4:     // Quit
+                        Console.WriteLine("Goodbye!");
+                        return;
 
-            //        case 5:     // Name conversion
-            //            string pw;
-            //            pw = Console.ReadLine();
-            //            if (pw == "DefinitelyNotAdmin")
-            //                orderConversion(Inventory, @"C:\Dropbox\\Work\Chatham\Perpetual-Blank.xlsx");
+                    case 5:     // Name conversion
+                        string pw;
+                        pw = Console.ReadLine();
+                        if (pw == "DefinitelyNotAdmin")
+                            orderConversion(Inventory, @"C:\Dropbox\\Work\Chatham\Perpetual-Blank.xlsx");
 
-            //            else
-            //                Console.WriteLine("Invalid Password.");
+                        else
+                            Console.WriteLine("Invalid Password.");
 
-            //            break;
+                        break;
 
-            //        default:
-            //            Console.WriteLine("**************************");
-            //            Console.WriteLine("Invalid choice.");
-            //            break;
-            //    }
-            //}
+                    default:
+                        Console.WriteLine("**************************");
+                        Console.WriteLine("Invalid choice.");
+                        break;
+                }
+            }
 
-            Console.WriteLine(getLastSunday());
-            Console.ReadLine();
+
 
         }
     }
