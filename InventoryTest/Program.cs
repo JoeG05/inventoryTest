@@ -28,10 +28,10 @@ namespace InventoryTest
             string line;
             
             // Scotch plains file location
-            // StreamReader file = new StreamReader(@"C:\Dropbox\Work\Inventory\Report.txt");
+             StreamReader file = new StreamReader(@"C:\Dropbox\Work\Inventory\Report.txt");
 
             // Chatham file location
-            StreamReader file = new StreamReader(@"C:\Dropbox\Work\Chatham\Report.txt");
+            //StreamReader file = new StreamReader(@"C:\Dropbox\Work\Chatham\Report.txt");
 
             while ((line = file.ReadLine()) != null)
             {
@@ -80,10 +80,10 @@ namespace InventoryTest
                 }
             }
             // Scotch Plains
-            // string saveAs = @"C:\Dropbox\Work\Inventory\Perpetual-WE-" + getNextSunday();
+            string saveAs = @"C:\Dropbox\Work\Inventory\Perpetual-WE-" + getNextSunday();
 
             // Chatham
-            string saveAs = @"C:\Dropbox\Work\Chatham\Perpetual-WE-" + getNextSunday();
+            // string saveAs = @"C:\Dropbox\Work\Chatham\Perpetual-WE-" + getNextSunday();
             
             xlWorkbook.SaveAs(saveAs);
             xlWorkbook.Close(file);
